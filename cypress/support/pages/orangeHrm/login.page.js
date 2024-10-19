@@ -4,6 +4,8 @@ class LoginPage {
     btnLogin = 'button[type="submit"]';
     msgFailedLogin = 'p[class*="oxd-alert-content-text"]';
     msgRequiredField = 'span[class*="oxd-input-field-error-message"]';
+    errorFieldActiveUsername = 'input.oxd-input.oxd-input--active.oxd-input--error[name="username"]';
+    errorFieldActivePassword = 'input.oxd-input.oxd-input--active.oxd-input--error[name="password"]';
 
     clickLoginButton () {
         cy.get('button[type="submit"]').click()
@@ -17,6 +19,14 @@ class LoginPage {
     verifyMsgRequiredField (message) {
         cy.get(this.msgRequiredField).should('exist', message)
         cy.get(this.msgRequiredField).should('contain.text', message)
+    }
+
+    verifyErrorUsernameFieldActive () {
+        cy.get(this.errorFieldActiveUsername).should('be.visible')
+    }
+
+    verifyErrorPassswordFieldActive () {
+        cy.get(this.errorFieldActivePassword).should('be.visible')
     }
 }
 

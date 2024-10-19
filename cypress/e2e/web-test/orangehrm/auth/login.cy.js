@@ -1,5 +1,9 @@
 import '../../../../support/commands'
-import LoginPage from '../../../../support/pages/orangeHrm/login.page';
+import dashboardPage from '../../../../support/pages/orangeHrm/dashboard.page';
+import loginPage from '../../../../support/pages/orangeHrm/login.page';
+const login = require('../../../../fixtures/json/orangeHrm/login/login.json');
+const dashboard = require('../../../../fixtures/json/orangeHrm/dashboard/dashboard.json');
+
 require('cypress-xpath');
 
 describe('Funtional Login Test', () => {
@@ -8,85 +12,119 @@ describe('Funtional Login Test', () => {
     cy.url().should('include', '/auth/login');
   });
 
-  // Custom Commands
+  // Custom Commands and POM and json
 
   it.only('Verify successful login with valid credentials', () => {
-    cy.login('Admin', 'admin123');
-    cy.xpath('//button[@type="submit"]').click();
-    cy.url().should('include', '/dashboard/index'); // verify dashboard
+    cy.login(login.username, login.password);
+    loginPage.clickLoginButton();
+    dashboardPage.verifyDashboardUrl(); // verify dashboard url
+    dashboardPage.verifyDashboardTitle(dashboard.dashboard_title); // verify dasshboard title
   })
 
-  it('Verify failed login with invalid username', () => {
-    cy.login('invalid_Admin', 'admin123');
-    cy.xpath('//button[@type="submit"]').click();
-    cy.msgFailedLogin('Invalid credentials'); // verify failed message contain text
+  it.only('Verify failed login with invalid username', () => {
+    cy.login(login.invalid_username, login.password);
+    loginPage.clickLoginButton();
+    loginPage.verifyMsgFailedLogin(login.message.msg_failed_login) // verify failed message contain text
   })
 
-  it('Verify failed login with invalid password', () => {
-    cy.login('Admin', 'invalid_admin123');
-    cy.get('button[type="submit"]').click();
-    cy.msgFailedLogin('Invalid credentials'); // verify failed message contain text
+  it.only('Verify failed login with invalid password', () => {
+    cy.login(login.username, login.invalid_password);
+    loginPage.clickLoginButton();
+    loginPage.verifyMsgFailedLogin(login.message.msg_failed_login) // verify failed message contain text
   })
 
-  it('Verify failed login with invalid username and password', () => {
-    cy.login('invalid_Admin', 'invalid_admin123');
-    cy.get('button[type="submit"]').click();
-    cy.msgFailedLogin('Invalid credentials'); // verify failed message contain text
+  it.only('Verify failed login with invalid username and password', () => {
+    cy.login(login.invalid_username, login.invalid_password);
+    loginPage.clickLoginButton();
+    loginPage.verifyMsgFailedLogin(login.message.msg_failed_login) // verify failed message contain text
   })
 
-  it('Verify failed login with empty username', () => {
-    cy.login(' ', 'invalid_admin123');
-    cy.get('button[type="submit"]').click();
-    cy.msgRequiredField('Required'); // verify failed message required field
+  it.only('Verify failed login with empty username', () => {
+    cy.login(login.empty_username, login.password);
+    loginPage.clickLoginButton();
+    loginPage.verifyMsgRequiredField(login.message.msg_empty_field); // verify failed message required field
+    loginPage.verifyErrorUsernameFieldActive(); // verify error username field is visible
   })
 
-  it('Verify failed login with empty password', () => {
-    cy.login('invalid_Admin', ' ');
-    cy.get('button[type="submit"]').click();
-    cy.msgRequiredField('Required'); // verify failed message required field
+  it.only('Verify failed login with empty password', () => {
+    cy.login(login.username, login.empty_password);
+    loginPage.clickLoginButton();
+    loginPage.verifyMsgRequiredField(login.message.msg_empty_field); // verify failed message required field
+    loginPage.verifyErrorPassswordFieldActive(); // verify error password field is visible
   })
 
-  it('Verify failed login with empty username and password', () => {
-    cy.login('invalid_Admin', ' ');
-    cy.get('button[type="submit"]').click();
-    cy.msgRequiredField('Required'); // verify failed message required field
+  it.only('Verify failed login with empty username and password', () => {
+    cy.login(login.empty_username, login.empty_password);
+    loginPage.clickLoginButton();
+    loginPage.verifyMsgRequiredField(login.message.msg_empty_field) // verify failed message required field
+    loginPage.verifyErrorUsernameFieldActive();  // verify error username field is visible
+    loginPage.verifyErrorPassswordFieldActive(); // verify error password field is visible
+  })
+
+  it.only('Verify failed login with username and password swapped', () => {
+    cy.login(login.password, login.username);
+    loginPage.clickLoginButton();
+    loginPage.verifyMsgFailedLogin(login.message.msg_failed_login); // verify failed message contain text
   })
 
   // Page Object Modeling (POM)
 
-  it('Pengguna gagal login dengan username yang salah', () => {
-    cy.get(LoginPage.username).type('invalid_Admin');
-    cy.get(LoginPage.password).type('admin123');
-    LoginPage.clickLoginButton();
-    LoginPage.verifyMsgFailedLogin('Invalid credentials') // verify failed message contain text
+  it('Verify successful login with valid credentials', () => {
+    cy.get(loginPage.username).type(login.username);
+    cy.get(loginPage.password).type(login.password);
+    loginPage.clickLoginButton();
+    dashboardPage.verifyDashboardUrl(); // verify dashboard url
+    dashboardPage.verifyDashboardTitle(dashboard.dashboard_title); // verify dasshboard title
   })
 
-  it('Pengguna gagal login dengan password yang salah', () => {
-    cy.get(LoginPage.username).type('Admin');
-    cy.get(LoginPage.password).type('invalid_admin123');
-    LoginPage.clickLoginButton();
-    LoginPage.verifyMsgFailedLogin('Invalid credentials') // verify failed message contain text
+  it('Verify failed login with invalid username', () => {
+    cy.get(loginPage.username).type(login.invalid_username);
+    cy.get(loginPage.password).type(login.password);
+    loginPage.clickLoginButton();
+    loginPage.verifyMsgFailedLogin(login.message.msg_failed_login); // verify failed message contain text
   })
 
-  it('Pengguna gagal login dengan username dan password yang salah', () => {
-    cy.get(LoginPage.username).type('invalid_Admin');
-    cy.get(LoginPage.password).type('invalid_admin123');
-    LoginPage.clickLoginButton();
-    LoginPage.verifyMsgFailedLogin('Invalid credentials') // verify failed message contain text
+  it('Verify failed login with invalid password', () => {
+    cy.get(loginPage.username).type(login.username);
+    cy.get(loginPage.password).type(login.invalid_password);
+    loginPage.clickLoginButton();
+    loginPage.verifyMsgFailedLogin(login.message.msg_failed_login) // verify failed message contain text
   })
 
-  it.only('Pengguna gagal login dengan username kosong', () => {
-    cy.get(LoginPage.username).type(' ');
-    cy.get(LoginPage.password).type('admin123');
-    LoginPage.clickLoginButton();
-    LoginPage.verifyMsgRequiredField('Required') // verify failed message required field
+  it('Verify failed login with invalid username and password', () => {
+    cy.get(loginPage.username).type(login.invalid_username);
+    cy.get(loginPage.password).type(login.invalid_password);
+    loginPage.clickLoginButton();
+    loginPage.verifyMsgFailedLogin(login.message.msg_failed_login) // verify failed message contain text
   })
 
-  it('Pengguna gagal login dengan password kosong', () => {
-    cy.get(LoginPage.username).type(' ');
-    cy.get(LoginPage.password).type('admin123');
-    LoginPage.clickLoginButton();
-    LoginPage.verifyMsgRequiredField('Required') // verify failed message required field
+  it('Verify failed login with empty username', () => {
+    cy.get(loginPage.password).type(login.password);
+    loginPage.clickLoginButton();
+    loginPage.verifyMsgRequiredField(login.message.msg_empty_field); // verify failed message required field
+    loginPage.verifyErrorUsernameFieldActive(); // verify error username field is visible
   })
+
+  it('Verify failed login with empty password', () => {
+    cy.get(loginPage.username).type(login.username);
+    loginPage.clickLoginButton();
+    loginPage.verifyMsgRequiredField(login.message.msg_empty_field); // verify failed message required field
+    loginPage.verifyErrorPassswordFieldActive(); // verify error password field is visible
+  })
+
+  it('Verify failed login with empty username and password', () => {
+    loginPage.clickLoginButton();
+    loginPage.verifyMsgRequiredField(login.message.msg_empty_field) // verify failed message required field
+    loginPage.verifyErrorUsernameFieldActive();  // verify error username field is visible
+    loginPage.verifyErrorPassswordFieldActive(); // verify error password field is visible
+  })
+
+  it('Verify failed login with username and password swapped', () => {
+    cy.get(loginPage.username).type(login.password);
+    cy.get(loginPage.password).type(login.username);
+    loginPage.clickLoginButton();
+    loginPage.verifyMsgFailedLogin(login.message.msg_failed_login); // verify failed message contain text
+  })
+
 
 })
