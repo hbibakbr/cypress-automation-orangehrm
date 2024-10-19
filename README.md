@@ -1,6 +1,5 @@
 # Web Automation OrangeHrm using Cypress
-Repository for Project Task Quality Assurance Engineer Bootcamp
-This is a web testing automation project built using the **Cypress** framework.
+Repository for Project Task Sanbercode Quality Assurance Engineer Bootcamp. This is a web testing automation project built using the **Cypress** framework. **Created by: Habib Akbar**
 
 <p align="center">
     <img src="cypress-logo.svg" alt="cypress" width="600" style="margin-left: 10px;" >
