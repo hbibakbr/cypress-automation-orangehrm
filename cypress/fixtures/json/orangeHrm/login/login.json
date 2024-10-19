@@ -1,0 +1,12 @@
+{
+    "username": "Admin",
+    "password": "admin123",
+    "invalid_username": "invalid_Admin",
+    "invalid_password": "invalid_admin123",
+    "empty_username": " ",
+    "empty_password": " ",
+    "message" : {
+        "msg_failed_login": "Invalid credentials",
+        "msg_empty_field": "Required"
+    }
+  }
