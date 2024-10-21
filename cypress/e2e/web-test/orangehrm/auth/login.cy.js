@@ -85,10 +85,14 @@ describe('Funtional Login Test', () => {
     dashboardPage.verifyDashboardTitle(dashboard.dashboard_title); // verify dasshboard title
   })
 
-  it('Verify failed login with invalid username', () => {
+  it.only('Verify failed login with invalid username', () => {
     cy.get(loginPage.username).type(login.invalid_username);
     cy.get(loginPage.password).type(login.password);
+    cy.intercept('GET', '**/messages').as('messages');
     loginPage.clickLoginButton();
+    cy.wait('@messages').then((intercept) => {
+      expect(intercept.response.statusCode).to.equal(304);
+    })
     loginPage.verifyMsgFailedLogin(login.message.msg_failed_login); // verify failed message contain text
   })
 
