@@ -1,6 +1,6 @@
 import '../../../../support/commands'
 import dashboardPage from '../../../../support/pages/orangeHrm/dashboard.page';
-import loginPage from '../../../../support/pages/orangeHrm/login.page';
+import loginPage from '../../../../support/pages/orangeHrm/login.page.js';
 const login = require('../../../../fixtures/json/orangeHrm/login/login.json');
 const dashboard = require('../../../../fixtures/json/orangeHrm/dashboard/dashboard.json');
 
@@ -16,44 +16,48 @@ describe('Funtional Login Test', () => {
 
   it.only('Verify successful login with valid credentials', () => {
     cy.login(login.username, login.password);
+    cy.intercept('GET', '**/action-summary').as('actionSummary')
     loginPage.clickLoginButton();
+    cy.wait('@actionSummary').then((intercept) => {
+      expect(intercept.response.statusCode).to.equal(200);
+    })
     dashboardPage.verifyDashboardUrl(); // verify dashboard url
     dashboardPage.verifyDashboardTitle(dashboard.dashboard_title); // verify dasshboard title
   })
 
-  it.only('Verify failed login with invalid username', () => {
+  it('Verify failed login with invalid username', () => {
     cy.login(login.invalid_username, login.password);
     loginPage.clickLoginButton();
     loginPage.verifyMsgFailedLogin(login.message.msg_failed_login) // verify failed message contain text
   })
 
-  it.only('Verify failed login with invalid password', () => {
+  it('Verify failed login with invalid password', () => {
     cy.login(login.username, login.invalid_password);
     loginPage.clickLoginButton();
     loginPage.verifyMsgFailedLogin(login.message.msg_failed_login) // verify failed message contain text
   })
 
-  it.only('Verify failed login with invalid username and password', () => {
+  it('Verify failed login with invalid username and password', () => {
     cy.login(login.invalid_username, login.invalid_password);
     loginPage.clickLoginButton();
     loginPage.verifyMsgFailedLogin(login.message.msg_failed_login) // verify failed message contain text
   })
 
-  it.only('Verify failed login with empty username', () => {
+  it('Verify failed login with empty username', () => {
     cy.login(login.empty_username, login.password);
     loginPage.clickLoginButton();
     loginPage.verifyMsgRequiredField(login.message.msg_empty_field); // verify failed message required field
     loginPage.verifyErrorUsernameFieldActive(); // verify error username field is visible
   })
 
-  it.only('Verify failed login with empty password', () => {
+  it('Verify failed login with empty password', () => {
     cy.login(login.username, login.empty_password);
     loginPage.clickLoginButton();
     loginPage.verifyMsgRequiredField(login.message.msg_empty_field); // verify failed message required field
     loginPage.verifyErrorPassswordFieldActive(); // verify error password field is visible
   })
 
-  it.only('Verify failed login with empty username and password', () => {
+  it('Verify failed login with empty username and password', () => {
     cy.login(login.empty_username, login.empty_password);
     loginPage.clickLoginButton();
     loginPage.verifyMsgRequiredField(login.message.msg_empty_field) // verify failed message required field
@@ -61,7 +65,7 @@ describe('Funtional Login Test', () => {
     loginPage.verifyErrorPassswordFieldActive(); // verify error password field is visible
   })
 
-  it.only('Verify failed login with username and password swapped', () => {
+  it('Verify failed login with username and password swapped', () => {
     cy.login(login.password, login.username);
     loginPage.clickLoginButton();
     loginPage.verifyMsgFailedLogin(login.message.msg_failed_login); // verify failed message contain text
@@ -69,10 +73,14 @@ describe('Funtional Login Test', () => {
 
   // Page Object Modeling (POM)
 
-  it('Verify successful login with valid credentials', () => {
+  it.only('Verify successful login with valid credentials', () => {
     cy.get(loginPage.username).type(login.username);
     cy.get(loginPage.password).type(login.password);
+    cy.intercept('GET', '**/action-summary').as('actionSummary')
     loginPage.clickLoginButton();
+    cy.wait('@actionSummary').then((intercept) => {
+      expect(intercept.response.statusCode).to.equal(200);
+    })
     dashboardPage.verifyDashboardUrl(); // verify dashboard url
     dashboardPage.verifyDashboardTitle(dashboard.dashboard_title); // verify dasshboard title
   })

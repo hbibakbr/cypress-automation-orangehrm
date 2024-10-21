@@ -7,6 +7,14 @@ class LoginPage {
     errorFieldActiveUsername = 'input.oxd-input.oxd-input--active.oxd-input--error[name="username"]';
     errorFieldActivePassword = 'input.oxd-input.oxd-input--active.oxd-input--error[name="password"]';
 
+    /* static inputUsername () { // static version
+        return cy.get('input[name="username"]');
+    } */
+
+    /* inputPassword () {
+        return cy.get('input[name="password"]');
+    } */
+
     clickLoginButton () {
         cy.get('button[type="submit"]').click()
     }
@@ -31,3 +39,4 @@ class LoginPage {
 }
 
 export default new LoginPage();
+// export default LoginPage;
