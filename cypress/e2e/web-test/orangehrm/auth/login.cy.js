@@ -124,7 +124,7 @@ describe('Funtional Login Test', () => {
     loginPage.verifyMsgFailedLogin(login.message.msg_failed_login) // verify failed message contain text
   })
 
-  it.only('POM non-static - Verify failed login with invalid username and password', () => {
+  it('POM non-static - Verify failed login with invalid username and password', () => {
     cy.get(loginPage.username).type(login.invalid_username);
     cy.get(loginPage.password).type(login.invalid_password);
     cy.intercept('GET', '**/messages').as('messages')
@@ -156,7 +156,7 @@ describe('Funtional Login Test', () => {
     loginPage.verifyErrorPassswordFieldActive(); // verify error password field is visible
   })
 
-  it.only('POM non-static - Verify failed login with username and password swapped', () => {
+  it('POM non-static - Verify failed login with username and password swapped', () => {
     cy.get(loginPage.username).type(login.password);
     cy.get(loginPage.password).type(login.username);
     cy.intercept('GET', '**/messages').as('messages')
@@ -169,7 +169,7 @@ describe('Funtional Login Test', () => {
 
   // POM Best Practice with static paradigma
 
-  it('POM static - Verify successful login with valid credentials', () => {
+  it.only('POM static - Verify successful login with valid credentials', () => {
     loginPom.inputUsername().type(login.username)
     loginPom.inputPassword().type(login.password)
     cy.intercept('GET', '**/action-summary').as('actionSummary')
@@ -181,7 +181,7 @@ describe('Funtional Login Test', () => {
     dashboardPage.verifyDashboardTitle(dashboard.dashboard_title); // verify dasshboard title
   })
 
-  it('POM static - Verify failed login with invalid username', () => {
+  it.only('POM static - Verify failed login with invalid username', () => {
     loginPom.inputUsername().type(login.invalid_username)
     loginPom.inputPassword().type(login.password)
     cy.intercept('GET', '**/messages').as('messages')
@@ -193,7 +193,7 @@ describe('Funtional Login Test', () => {
     loginPom.verifyExistMsgFailedLogin();
   })
 
-  it('POM static - Verify failed login with invalid password', () => {
+  it.only('POM static - Verify failed login with invalid password', () => {
     loginPom.inputUsername().type(login.username)
     loginPom.inputPassword().type(login.invalid_password)
     cy.intercept('GET', '**/messages').as('messages')
@@ -205,7 +205,7 @@ describe('Funtional Login Test', () => {
     loginPom.verifyExistMsgFailedLogin();
   })
 
-  it('POM static - Verify failed login with invalid username and password', () => {
+  it.only('POM static - Verify failed login with invalid username and password', () => {
     loginPom.inputUsername().type(login.invalid_username)
     loginPom.inputPassword().type(login.invalid_password)
     cy.intercept('GET', '**/messages').as('messages')
@@ -217,7 +217,7 @@ describe('Funtional Login Test', () => {
     loginPom.verifyExistMsgFailedLogin();
   })
 
-  it('POM static - Verify failed login with empty username', () => { // cannot call intercept
+  it.only('POM static - Verify failed login with empty username', () => { // cannot call intercept
     loginPom.inputPassword().type(login.invalid_password)
     loginPom.clickLoginButton();
     loginPom.verifyExistMsgRequiredField();
@@ -225,7 +225,7 @@ describe('Funtional Login Test', () => {
     loginPom.verifyErrorUsernameFieldActive();
   })
 
-  it('POM static - Verify failed login with empty password', () => { // cannot call intercept
+  it.only('POM static - Verify failed login with empty password', () => { // cannot call intercept
     loginPom.inputUsername().type(login.invalid_username)
     loginPom.clickLoginButton();
     loginPom.verifyExistMsgRequiredField();
@@ -233,7 +233,7 @@ describe('Funtional Login Test', () => {
     loginPom.verifyErrorPassswordFieldActive();
   })
 
-  it('POM static - Verify failed login with empty username and password', () => { // cannot call intercept
+  it.only('POM static - Verify failed login with empty username and password', () => { // cannot call intercept
     loginPom.clickLoginButton();
     loginPom.verifyExistMsgRequiredField();
     loginPom.verifyTextMsgRequiredField(login.message.msg_empty_field);
@@ -241,7 +241,7 @@ describe('Funtional Login Test', () => {
     loginPom.verifyErrorPassswordFieldActive();
   })
 
-  it('POM static - Verify failed login with username and password swapped', () => {
+  it.only('POM static - Verify failed login with username and password swapped', () => {
     loginPom.inputUsername().type(login.password)
     loginPom.inputPassword().type(login.username)
     cy.intercept('GET', '**/messages').as('messages')

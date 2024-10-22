@@ -6,11 +6,18 @@ Repository for Project Task Sanbercode Quality Assurance Engineer Bootcamp. This
 </p>
 
 ## Overview
-The project includes Login Test Cases from [OrangeHrm](https://opensource-demo.orangehrmlive.com/web/index.php/auth/login). The goal of this project is to provide automated test cases for common user interactions on the orangeHrm website, ensuring robust and reliable functionality.
+The project includes login test cases from [OrangeHrm](https://opensource-demo.orangehrmlive.com/web/index.php/auth/login). The goal of this project is to provide automated test cases for common user interactions on the OrangeHRM website, ensuring robust and reliable functionality. The login feature is implemented in three ways. First, using a custom command. Second, using Page Object Model (POM) with a non-static object. Lastly, using POM with a static object. All implementations run smoothly without any issues. This is a practice project, which is why I explored three different approaches.
 
-## Screenshot of Login Test Reasults
+## Screenshot of Login Test Execution
 
-![Order Suite Report](login-result.jpg)
+### Script Writing with Custom Command
+![Order Suite Report](login-custom.jpg)
+
+### Script Writing with POM non-static object
+![Order Suite Report](login-pom-static.jpg)
+
+### Script Writing with Pom static object
+![Order Suite Report](login-pom-nonstatic.jpg)
 
 ## Features
 ### Auth
