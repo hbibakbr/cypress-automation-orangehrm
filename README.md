@@ -19,6 +19,9 @@ The project includes login test cases from [OrangeHrm](https://opensource-demo.o
 ### Script Writing with Pom static object
 ![Order Suite Report](login-pom-nonstatic.jpg)
 
+### API Testing Reqres
+![Order Suite Report](api-reqres.jpg)
+
 ## Features
 ### Auth
 1. **Login**
